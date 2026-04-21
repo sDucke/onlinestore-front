@@ -1,0 +1,224 @@
+<div class="wrap" style="padding-top: 40px; text-align: center; animation: 0.5s ease-out 0s 1 fadeIn; padding-bottom: 80px;">
+  <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 32px; width: 100%;">
+    <a routerLink="/" style="position: absolute; left: 0; color: var(--blue-light); text-decoration: none; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(0,180,216,0.1);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </a>
+    <h2 style="font-size: 24px; margin: 0; font-weight: 800;">Tu <span style="color: var(--blue-light);">Inventario</span></h2>
+  </div>
+  <p style="color: var(--white-dim); margin-top: -16px; margin-bottom: 32px;">Aquí verás los diseños generados por inteligencia artificial para tus productos.</p>
+
+  <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start; justify-content: center;">
+    
+    <!-- Lista de Diseños (Izquierda) -->
+    <div class="glass-panel" style="width: 100%; max-width: 400px; padding: 20px; text-align: left;">
+      <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--white-dim); text-transform: uppercase;">Diseños Recientes</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px; max-height: 500px; overflow-y: auto; padding-right: 4px;">
+        @for (product of productsList(); track product.id) {
+          <div class="design-item" (click)="toggleTemplate(product)" style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 8px; cursor: pointer; transition: background 0.3s; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+            @if (product.designImagePath) {
+              <img [src]="'http://localhost:8080/api/images/' + product.designImagePath" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+            } @else {
+              <div style="width: 60px; height: 60px; border-radius: 8px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa;">Sin imagen</div>
+            }
+            <div>
+              <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #fff;">{{ product.name || 'Producto Generado' }}</h4>
+              <span style="font-size: 12px; color: var(--blue-light);">Click para ver publicación publicitaria</span>
+            </div>
+          </div>
+        } @empty {
+          @if (generatedImage()) {
+            <div class="design-item" (click)="toggleTemplate()" style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 8px; cursor: pointer; transition: background 0.3s; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+              <img [src]="generatedImage()" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+              <div>
+                <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #fff;">{{ productName() || 'Producto Generado' }}</h4>
+                <span style="font-size: 12px; color: var(--blue-light);">Click para ver publicación publicitaria</span>
+              </div>
+            </div>
+          } @else {
+            <p style="color: var(--white-dim); font-size: 14px; text-align: center; padding: 20px 0;">Cargando o base de datos vacía...</p>
+          }
+        }
+      </div>
+        
+      @if (showTemplate()) {
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+          <button class="btn btn-primary" style="flex: 1; padding: 12px; font-size: 14px;" (click)="$event.stopPropagation();">Publicar</button>
+          <button class="btn btn-ghost" style="flex: 1; padding: 12px; font-size: 14px;" (click)="$event.stopPropagation(); toggleDetailsModal();">Detalles en inventario</button>
+        </div>
+      }
+    </div>
+
+    <!-- Vista Previa (Derecha) -->
+    @if (showTemplate() && generatedImage()) {
+      <div style="display: flex; flex-direction: column; gap: 32px; width: 100%; max-width: 400px;">
+        <!-- Plantilla Instagram -->
+        <div class="glass-panel template-preview" style="padding: 0; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1);">
+          <!-- Header tipo Instagram -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                  <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: flex; align-items: center; justify-content: center;">
+                      <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--blue-navy); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white;">Y</div>
+                  </div>
+                  <div>
+                      <h4 style="margin: 0; font-size: 14px; font-weight: 600; color: white; display: flex; align-items: center; gap: 4px;">yanztecnologia <svg width="12" height="12" viewBox="0 0 24 24" fill="#0095F6"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.9 14.7L6 12.6l1.5-1.5 2.6 2.6 6.4-6.4 1.5 1.5-8 8z"/></svg></h4>
+                      <span style="font-size: 11px; color: #a8a8a8;">Patrocinado</span>
+                  </div>
+              </div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          </div>
+          
+          <!-- Post Image -->
+          <img [src]="generatedImage()" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;">
+          
+          <!-- Footer tipo Instagram -->
+          <div style="padding: 16px; text-align: left; background: #000;">
+            <div style="display: flex; gap: 16px; margin-bottom: 12px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              <div style="flex: 1;"></div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <p style="font-size: 14px; margin: 0; line-height: 1.5; color: white;">
+              <strong>yanztecnologia</strong> ¡Llegó lo nuevo! Consigue el mejor <strong>{{ productName() || 'producto' }}</strong> al mejor precio en nuestra tienda. 🚀⚡️ <br><br>
+              <span style="color: #00376b; cursor: pointer;">#tecnologia</span> <span style="color: #00376b; cursor: pointer;">#yanztec</span> <span style="color: #00376b; cursor: pointer;">#ofertas</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Plantilla Facebook -->
+        <div class="glass-panel template-preview" style="padding: 0; overflow: hidden; background: #242526; border: 1px solid rgba(255,255,255,0.1);">
+          <!-- Header tipo Facebook -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--blue-navy); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; color: white;">Y</div>
+                  <div>
+                      <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #E4E6EB; text-align: left;">Yanz Tecnología</h4>
+                      <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #B0B3B8;">
+                          <span>Publicidad</span>
+                          <span>·</span>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                      </div>
+                  </div>
+              </div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#B0B3B8"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          </div>
+          
+          <!-- Texto Facebook -->
+          <div style="padding: 0 16px 12px; color: #E4E6EB; font-size: 15px; text-align: left;">
+              ¡Llegó lo nuevo! Consigue el mejor <strong>{{ productName() || 'producto' }}</strong> al mejor precio en nuestra tienda. 🚀⚡️
+          </div>
+          
+          <!-- Post Image -->
+          <img [src]="generatedImage()" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;">
+          
+          <!-- Footer tipo Facebook -->
+          <div style="padding: 12px 16px;">
+              <div style="display: flex; justify-content: space-between; border-top: 1px solid #3E4042; padding-top: 12px;">
+                  <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #B0B3B8; flex: 1; cursor: pointer;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                      <span style="font-weight: 600; font-size: 14px;">Me gusta</span>
+                  </div>
+                  <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #B0B3B8; flex: 1; cursor: pointer;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                      <span style="font-weight: 600; font-size: 14px;">Comentar</span>
+                  </div>
+                  <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #B0B3B8; flex: 1; cursor: pointer;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                      <span style="font-weight: 600; font-size: 14px;">Compartir</span>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Modal Detalles de Inventario -->
+@if (showDetailsModal()) {
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,20,40,0.85); backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; animation: 0.3s ease-out 0s 1 fadeIn;">
+    <div class="glass-panel" style="width: 100%; max-width: 400px; padding: 32px; position: relative;">
+      <button (click)="toggleDetailsModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; color: white; cursor: pointer; padding: 8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      
+      <h3 style="margin-top: 0; margin-bottom: 24px; font-size: 20px; text-align: center;">Detalles del Producto</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px; text-align: left; margin-bottom: 32px; max-height: 400px; overflow-y: auto; padding-right: 8px;">
+        @if (!isEditingDetails()) {
+          <div>
+            <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Nombre</strong>
+            <div style="font-size: 16px; color: #fff; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 8px; margin-top: 6px;">{{ productName() || 'No disponible' }}</div>
+          </div>
+          
+          <div style="display: flex; gap: 16px;">
+            <div style="flex: 1;">
+              <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Precio</strong>
+              <div style="font-size: 16px; color: #fff; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 8px; margin-top: 6px;">${{ precio() !== null ? precio() : '0.00' }}</div>
+            </div>
+            <div style="flex: 1;">
+              <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Stock</strong>
+              <div style="font-size: 16px; color: #fff; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 8px; margin-top: 6px;">{{ cantidad() !== null ? cantidad() : '0' }} unds</div>
+            </div>
+          </div>
+          
+          <div>
+            <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Categoría</strong>
+            <div style="font-size: 16px; color: #fff; text-transform: capitalize; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 8px; margin-top: 6px;">{{ categoria() || 'No disponible' }}</div>
+          </div>
+          
+          <div>
+            <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Anotaciones adicionales</strong>
+            <div style="font-size: 14px; color: var(--white-dim); padding: 10px 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 6px; min-height: 60px;">{{ detalles() || 'Sin detalles' }}</div>
+          </div>
+        } @else {
+          <!-- Modo Edición -->
+          <div>
+            <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Nombre del Producto</strong>
+            <input type="text" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px;" [ngModel]="productName()" (ngModelChange)="productName.set($event)">
+          </div>
+          
+          <div style="display: flex; gap: 16px;">
+            <div style="flex: 1;">
+              <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Precio ($)</strong>
+              <input type="number" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px;" [ngModel]="precio()" (ngModelChange)="precio.set($event)">
+            </div>
+            <div style="flex: 1;">
+              <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Stock</strong>
+              <input type="number" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px;" [ngModel]="cantidad()" (ngModelChange)="cantidad.set($event)">
+            </div>
+          </div>
+
+          <div>
+            <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Categoría</strong>
+            <select style="width: 100%; box-sizing: border-box; background: #001020; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px;" [ngModel]="categoria()" (ngModelChange)="categoria.set($event)">
+              <option value="celulares">Celulares y Tablets</option>
+              <option value="computadoras">Computadoras y Laptops</option>
+              <option value="accesorios">Accesorios y Audio</option>
+              <option value="repuestos">Repuestos Generales</option>
+            </select>
+          </div>
+
+          <div>
+            <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Anotaciones Adicionales</strong>
+            <textarea style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px; min-height: 80px; resize: vertical;" [ngModel]="detalles()" (ngModelChange)="detalles.set($event)"></textarea>
+          </div>
+        }
+      </div>
+      
+      @if (!isEditingDetails()) {
+        <button class="btn btn-primary" style="width: 100%;" (click)="toggleEditMode()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: -4px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          Editar Producto
+        </button>
+      } @else {
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-ghost" style="flex: 1;" (click)="toggleEditMode()">Cancelar</button>
+          <button class="btn btn-primary" style="flex: 1;" (click)="saveProductEdit()">Guardar Cambios</button>
+        </div>
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,179 @@
+/* Global Styles Inspired by Yantz Web Logic */
+
+@import 'tailwindcss';
+
+:root {
+    /* Palette requested: azul, azul marino, celeste, blanco */
+    --blue: #0077B6;            /* Azul */
+    --blue-navy: #03045E;       /* Azul Marino */
+    --blue-light: #00B4D8;      /* Celeste */
+    --white: #FFFFFF;           /* Blanco */
+    
+    /* Design System Tokens */
+    --blue-navy-dim: rgba(3, 4, 94, 0.8);
+    --blue-border: rgba(0, 180, 216, 0.2);
+    --blue-border-h: rgba(0, 180, 216, 0.5);
+    --white-dim: rgba(255, 255, 255, 0.7);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--blue-navy);
+    color: var(--white);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    line-height: 1.6;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(0, 180, 216, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(0, 119, 182, 0.15) 0%, transparent 50%);
+    background-attachment: fixed;
+}
+
+.wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    line-height: 1.2;
+    color: var(--white);
+}
+
+h1 {
+    font-size: clamp(48px, 8vw, 84px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--white) 0%, var(--blue-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.lead {
+    font-size: clamp(18px, 2vw, 22px);
+    color: var(--white-dim);
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 16px;
+    padding: 16px 36px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s var(--ease);
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+}
+
+.btn svg {
+    transition: transform 0.3s var(--ease);
+}
+
+.btn:hover svg {
+    transform: translateX(4px) scale(1.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+    color: var(--white);
+    box-shadow: 0 8px 24px rgba(0, 180, 216, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 180, 216, 0.4);
+    background: linear-gradient(135deg, var(--blue-light) 0%, var(--blue) 100%);
+}
+
+.btn-ghost {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--blue-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 180, 216, 0.15);
+}
+
+/* ============================================
+   LAYOUT 
+   ============================================ */
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 0;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 180, 216, 0.3);
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        padding: 0 20px;
+    }
+}
+
+/* Glassmorphism elements */
+.glass-panel {
+    background: rgba(3, 4, 94, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 24px;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
