@@ -24,12 +24,12 @@ export default {
 ],
   entryPointToBrowserMapping: undefined,
   assets: {
-    'index.csr.html': {size: 3505, hash: '5805db6730d750b4965a37081ff8fab4c5d803b719e49f741580d9d62b194e2e', text: () => import('./assets-chunks/index_csr_html.mjs').then(m => m.default)},
-    'index.server.html': {size: 945, hash: 'd9f65fb1503b7e6825458d28d3f1cb7754424145092b1103813d5cc729c565fb', text: () => import('./assets-chunks/index_server_html.mjs').then(m => m.default)},
-    'publicar/index.html': {size: 7809, hash: '999cdc9d9163518313c11f3ab18cf9d9eaf7160465ee526fd102c23021172b4e', text: () => import('./assets-chunks/publicar_index_html.mjs').then(m => m.default)},
-    'index.html': {size: 13345, hash: '4fe9ef8293d076451882dd44a89e42cfe2df2587a648e94db5143b1178eec947', text: () => import('./assets-chunks/index_html.mjs').then(m => m.default)},
-    'configurar-producto/index.html': {size: 13084, hash: '0be59827cfe04ad5aa7455dc11fcaf9cfb38b40538f81c2d37e8fb9834642ef0', text: () => import('./assets-chunks/configurar-producto_index_html.mjs').then(m => m.default)},
-    'disenos/index.html': {size: 7670, hash: 'c05a93f29a7901536009e6ec0dd0b3e37d516e8e737f69b2120bcddc7e4721f7', text: () => import('./assets-chunks/disenos_index_html.mjs').then(m => m.default)},
-    'styles-RGVZQNWG.css': {size: 9137, hash: 'Vk4uB0u+TIE', text: () => import('./assets-chunks/styles-RGVZQNWG_css.mjs').then(m => m.default)}
+    'index.csr.html': {size: 4886, hash: 'cb1b26ddbfe922a1dc12f73a42d41860fa40d3384a279e39722b7159bc4c6fa0', text: () => import('./assets-chunks/index_csr_html.mjs').then(m => m.default)},
+    'index.server.html': {size: 945, hash: '4dc0c523a85619fd5643ad8d82c5b798f75edbfbbca98177f40ce35e9c9a8a5f', text: () => import('./assets-chunks/index_server_html.mjs').then(m => m.default)},
+    'index.html': {size: 14714, hash: '5fbe0178f0658435905c123262e1b4f2a21e0f512ac05f7bf1b88460b0ceaefd', text: () => import('./assets-chunks/index_html.mjs').then(m => m.default)},
+    'disenos/index.html': {size: 9996, hash: '39d917a76e61ef90858fa32f80d79d3c883a03c171aab80e8a4f80cb4508651a', text: () => import('./assets-chunks/disenos_index_html.mjs').then(m => m.default)},
+    'publicar/index.html': {size: 15016, hash: 'f5491962e4559b5f119b1d04e30b120bd14cd8bc1e9b7b458329fea5aecf38ef', text: () => import('./assets-chunks/publicar_index_html.mjs').then(m => m.default)},
+    'configurar-producto/index.html': {size: 15410, hash: '005edb87ad332e64f21e8cf3be9c919d7f80fa5229ce0aa10c75c2c8486a2fc5', text: () => import('./assets-chunks/configurar-producto_index_html.mjs').then(m => m.default)},
+    'styles-JFLXUV23.css': {size: 11732, hash: '8Qf2OSEsJcE', text: () => import('./assets-chunks/styles-JFLXUV23_css.mjs').then(m => m.default)}
   },
 };
