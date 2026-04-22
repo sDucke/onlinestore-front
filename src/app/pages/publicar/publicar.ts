@@ -193,10 +193,10 @@ export class Publicar implements OnDestroy {
 
     console.log(
       '🛠️ Evaluando Producto usando Endpoint...',
-      'http://localhost:8080/api/products/validate-image'
+      'http://82.25.69.177:8080/api/products/validate-image'
     );
 
-    this.http.post('http://localhost:8080/api/products/validate-image', formData).subscribe({
+    this.http.post('http://82.25.69.177:8080/api/products/validate-image', formData).subscribe({
       next: (response: any) => {
         this.isUploading.set(false);
 

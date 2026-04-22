@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 export class Disenos implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
-  
+
   productsList = signal<any[]>([]);
 
   // Selected details
@@ -47,11 +47,11 @@ export class Disenos implements OnInit {
   }
 
   fetchProducts() {
-    this.http.get<any[]>('http://localhost:8080/api/products/all').subscribe({
+    this.http.get<any[]>('http://82.25.69.177:8080/api/products/all').subscribe({
       next: (data) => {
         const reversed = [...data].reverse();
         this.productsList.set(reversed);
-        
+
         if (!this.generatedImage() && reversed.length > 0) {
           this.selectProduct(reversed[0]);
         }
@@ -63,11 +63,11 @@ export class Disenos implements OnInit {
   selectProduct(product: any) {
     this.selectedProductId.set(product.id);
     if (product.designImagePath) {
-      this.generatedImage.set('http://localhost:8080/api/images/' + product.designImagePath);
+      this.generatedImage.set('http://82.25.69.177:8080/api/images/' + product.designImagePath);
     } else {
       this.generatedImage.set(null);
     }
-    
+
     this.productName.set(product.name);
     this.precio.set(product.price);
     this.cantidad.set(product.stock);
@@ -94,8 +94,8 @@ export class Disenos implements OnInit {
   saveProductEdit() {
     const id = this.selectedProductId();
     if (!id) {
-        alert("No hay un producto válido seleccionado para editar.");
-        return;
+      alert("No hay un producto válido seleccionado para editar.");
+      return;
     }
 
     const params: any = {
@@ -108,7 +108,7 @@ export class Disenos implements OnInit {
 
     console.log("Guardando datos...", params);
 
-    this.http.put(`http://localhost:8080/api/products/update/${id}`, null, { params }).subscribe({
+    this.http.put(`http://82.25.69.177:8080/api/products/update/${id}`, null, { params }).subscribe({
       next: (response: any) => {
         alert("¡Producto actualizado exitosamente!");
         this.isEditingDetails.set(false);

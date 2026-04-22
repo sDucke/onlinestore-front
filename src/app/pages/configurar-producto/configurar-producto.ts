@@ -21,7 +21,7 @@ export interface ProductPayload {
 export class ConfigurarProducto {
   private router = inject(Router);
   private http = inject(HttpClient);
-  
+
   previewUrl = signal<string | null>(null);
   isSubmitting = signal<boolean>(false);
 
@@ -44,7 +44,7 @@ export class ConfigurarProducto {
       alert("Por favor, completa los campos obligatorios antes de publicar.");
       return;
     }
-    
+
     this.isSubmitting.set(true);
 
     const formData = new FormData();
@@ -56,38 +56,38 @@ export class ConfigurarProducto {
 
     const imageUrl = this.previewUrl();
     if (imageUrl) {
-        try {
-            // Conversión de la Data URL a Blob validable para el server
-            const res = await fetch(imageUrl);
-            const blob = await res.blob();
-            formData.append('file', blob, 'producto.jpg'); 
-            formData.append('image', blob, 'producto.jpg'); 
-        } catch (e) {
-            console.error("Error procesando la imagen a Blob:", e);
-        }
+      try {
+        // Conversión de la Data URL a Blob validable para el server
+        const res = await fetch(imageUrl);
+        const blob = await res.blob();
+        formData.append('file', blob, 'producto.jpg');
+        formData.append('image', blob, 'producto.jpg');
+      } catch (e) {
+        console.error("Error procesando la imagen a Blob:", e);
+      }
     }
-    
+
     console.log("Subiendo inventario final a Backend...");
-    
-    this.http.post('http://localhost:8080/api/products/upload', formData).subscribe({
+
+    this.http.post('http://82.25.69.177:8080/api/products/upload', formData).subscribe({
       next: (response: any) => {
         this.isSubmitting.set(false);
         console.log("Producto guardado:", response);
         if (response.n8n_response_image) {
-            this.router.navigate(['/disenos'], { 
-               state: { 
-                   image: response.n8n_response_image,
-                   productName: this.nombre(),
-                   precio: this.precio(),
-                   cantidad: this.cantidad(),
-                   categoria: this.categoria(),
-                   detalles: this.detalles()
-               } 
-            }).then(() => {
-                alert("¡Inventario actualizado con éxito!");
-            });
+          this.router.navigate(['/disenos'], {
+            state: {
+              image: response.n8n_response_image,
+              productName: this.nombre(),
+              precio: this.precio(),
+              cantidad: this.cantidad(),
+              categoria: this.categoria(),
+              detalles: this.detalles()
+            }
+          }).then(() => {
+            alert("¡Inventario actualizado con éxito!");
+          });
         } else {
-            alert("Error al conectar con la IA");
+          alert("Error al conectar con la IA");
         }
       },
       error: (err) => {
