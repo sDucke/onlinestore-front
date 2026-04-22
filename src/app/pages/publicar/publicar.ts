@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE_URL } from '../../api-base';
 
 @Component({
   selector: 'app-publicar',
@@ -10,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./publicar.css']
 })
 export class Publicar implements OnDestroy {
+  private readonly validateImageUrl = `${API_BASE_URL}/products/validate-image`;
   private router = inject(Router);
   private http = inject(HttpClient);
 
@@ -193,10 +195,10 @@ export class Publicar implements OnDestroy {
 
     console.log(
       '🛠️ Evaluando Producto usando Endpoint...',
-      'http://82.25.69.177:8080/api/products/validate-image'
+      this.validateImageUrl
     );
 
-    this.http.post('http://82.25.69.177:8080/api/products/validate-image', formData).subscribe({
+    this.http.post(this.validateImageUrl, formData).subscribe({
       next: (response: any) => {
         this.isUploading.set(false);
 

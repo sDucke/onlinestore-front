@@ -8,21 +8,64 @@ import express from 'express';
 import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
+const backendBaseUrl =
+  process.env['BACKEND_URL'] ?? 'http://localhost:8080';
+const shouldProxyRequestBody = (method: string) =>
+  method !== 'GET' && method !== 'HEAD';
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+app.use('/api', async (req, res, next) => {
+  try {
+    const targetUrl = new URL(req.originalUrl, backendBaseUrl);
+    const headers = new Headers();
+
+    for (const [key, value] of Object.entries(req.headers)) {
+      if (key === 'host' || value === undefined) {
+        continue;
+      }
+
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          headers.append(key, item);
+        }
+      } else {
+        headers.set(key, value);
+      }
+    }
+
+    const requestInit = {
+      method: req.method,
+      headers,
+      body: shouldProxyRequestBody(req.method)
+        ? (req as unknown as BodyInit)
+        : undefined,
+      duplex: shouldProxyRequestBody(req.method) ? 'half' : undefined,
+    } as RequestInit & { duplex?: 'half' };
+
+    const upstreamResponse = await fetch(targetUrl, requestInit);
+
+    res.status(upstreamResponse.status);
+
+    upstreamResponse.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
+
+    if (!upstreamResponse.body) {
+      res.end();
+      return;
+    }
+
+    for await (const chunk of upstreamResponse.body) {
+      res.write(chunk);
+    }
+
+    res.end();
+  } catch (error) {
+    next(error);
+  }
+});
 
 /**
  * Serve static files from /browser

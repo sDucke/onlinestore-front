@@ -36,6 +36,16 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+This project requires Node 20 or newer.
+
+## Backend configuration
+
+The frontend calls the backend through relative `/api` routes. In SSR and production deployments, set `BACKEND_URL` so the Node server can proxy those requests to the real backend, for example:
+
+```bash
+BACKEND_URL=http://yanzacademy-backendbuyfast-avgzzn:8080
+```
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:

@@ -1,7 +1,9 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, PLATFORM_ID, inject, signal, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { API_BASE_URL, API_IMAGES_URL } from '../../api-base';
 
 @Component({
   selector: 'app-disenos',
@@ -11,6 +13,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./disenos.css']
 })
 export class Disenos implements OnInit {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly productsUrl = `${API_BASE_URL}/products/all`;
   private router = inject(Router);
   private http = inject(HttpClient);
 
@@ -43,11 +47,15 @@ export class Disenos implements OnInit {
   }
 
   ngOnInit() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     this.fetchProducts();
   }
 
   fetchProducts() {
-    this.http.get<any[]>('http://82.25.69.177:8080/api/products/all').subscribe({
+    this.http.get<any[]>(this.productsUrl).subscribe({
       next: (data) => {
         const reversed = [...data].reverse();
         this.productsList.set(reversed);
@@ -63,7 +71,7 @@ export class Disenos implements OnInit {
   selectProduct(product: any) {
     this.selectedProductId.set(product.id);
     if (product.designImagePath) {
-      this.generatedImage.set('http://82.25.69.177:8080/api/images/' + product.designImagePath);
+      this.generatedImage.set(`${API_IMAGES_URL}/${product.designImagePath}`);
     } else {
       this.generatedImage.set(null);
     }
@@ -108,7 +116,7 @@ export class Disenos implements OnInit {
 
     console.log("Guardando datos...", params);
 
-    this.http.put(`http://82.25.69.177:8080/api/products/update/${id}`, null, { params }).subscribe({
+    this.http.put(`${API_BASE_URL}/products/update/${id}`, null, { params }).subscribe({
       next: (response: any) => {
         alert("¡Producto actualizado exitosamente!");
         this.isEditingDetails.set(false);

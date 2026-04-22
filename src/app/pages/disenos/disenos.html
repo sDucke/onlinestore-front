@@ -17,7 +17,7 @@
         @for (product of productsList(); track product.id) {
           <div class="design-item" (click)="toggleTemplate(product)" style="display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 8px; cursor: pointer; transition: background 0.3s; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
             @if (product.designImagePath) {
-              <img [src]="'http://localhost:8080/api/images/' + product.designImagePath" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+              <img [src]="'/api/images/' + product.designImagePath" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
             } @else {
               <div style="width: 60px; height: 60px; border-radius: 8px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa;">Sin imagen</div>
             }

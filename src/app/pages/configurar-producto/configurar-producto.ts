@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE_URL } from '../../api-base';
 
 export interface ProductPayload {
   nombre: string;
@@ -19,6 +20,7 @@ export interface ProductPayload {
   styleUrls: ['./configurar-producto.css']
 })
 export class ConfigurarProducto {
+  private readonly uploadProductUrl = `${API_BASE_URL}/products/upload`;
   private router = inject(Router);
   private http = inject(HttpClient);
 
@@ -69,7 +71,7 @@ export class ConfigurarProducto {
 
     console.log("Subiendo inventario final a Backend...");
 
-    this.http.post('http://82.25.69.177:8080/api/products/upload', formData).subscribe({
+    this.http.post(this.uploadProductUrl, formData).subscribe({
       next: (response: any) => {
         this.isSubmitting.set(false);
         console.log("Producto guardado:", response);
