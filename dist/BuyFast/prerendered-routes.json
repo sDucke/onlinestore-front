@@ -1,0 +1,8 @@
+{
+  "routes": {
+    "/": {},
+    "/configurar-producto": {},
+    "/disenos": {},
+    "/publicar": {}
+  }
+}
