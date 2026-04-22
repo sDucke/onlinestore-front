@@ -40,8 +40,5 @@
   },
   "engines": {
   "node": ">=20"
-  },
-  "scripts": {
-  "start": "serve -s dist/buy-fast/browser -l 4200"
   }
 }
