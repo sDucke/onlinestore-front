@@ -79,6 +79,7 @@ export class ConfigurarProducto {
           this.router.navigate(['/disenos'], {
             state: {
               image: response.n8n_response_image,
+              socialPost: response.social_post,
               productName: this.nombre(),
               precio: this.precio(),
               cantidad: this.cantidad(),

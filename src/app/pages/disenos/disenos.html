@@ -80,9 +80,9 @@
               <div style="flex: 1;"></div>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
             </div>
-            <p style="font-size: 14px; margin: 0; line-height: 1.5; color: white;">
-              <strong>yanztecnologia</strong> ¡Llegó lo nuevo! Consigue el mejor <strong>{{ productName() || 'producto' }}</strong> al mejor precio en nuestra tienda. 🚀⚡️ <br><br>
-              <span style="color: #00376b; cursor: pointer;">#tecnologia</span> <span style="color: #00376b; cursor: pointer;">#yanztec</span> <span style="color: #00376b; cursor: pointer;">#ofertas</span>
+            <p style="font-size: 14px; margin: 0; line-height: 1.5; color: white; white-space: pre-wrap;">
+              <strong>yanztecnologia</strong> @if (socialPostText()) { {{ socialPostText() }} } @else { ¡Llegó lo nuevo! Consigue el mejor <strong>{{ productName() || 'producto' }}</strong> al mejor precio en nuestra tienda. 🚀⚡️ <br><br>
+              <span style="color: #00376b; cursor: pointer;">#tecnologia</span> <span style="color: #00376b; cursor: pointer;">#yanztec</span> <span style="color: #00376b; cursor: pointer;">#ofertas</span> }
             </p>
           </div>
         </div>
@@ -106,8 +106,8 @@
           </div>
           
           <!-- Texto Facebook -->
-          <div style="padding: 0 16px 12px; color: #E4E6EB; font-size: 15px; text-align: left;">
-              ¡Llegó lo nuevo! Consigue el mejor <strong>{{ productName() || 'producto' }}</strong> al mejor precio en nuestra tienda. 🚀⚡️
+          <div style="padding: 0 16px 12px; color: #E4E6EB; font-size: 15px; text-align: left; white-space: pre-wrap;">
+              @if (socialPostText()) { {{ socialPostText() }} } @else { ¡Llegó lo nuevo! Consigue el mejor <strong>{{ productName() || 'producto' }}</strong> al mejor precio en nuestra tienda. 🚀⚡️ }
           </div>
           
           <!-- Post Image -->
@@ -131,6 +131,23 @@
               </div>
           </div>
         </div>
+
+        <!-- Texto Generado por IA (Copiar para Redes) -->
+        @if (socialPostText()) {
+          <div class="glass-panel" style="padding: 20px; text-align: left; background: rgba(0, 180, 216, 0.05); border: 1px solid rgba(0, 180, 216, 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h3 style="font-size: 16px; margin: 0; color: var(--blue-light); display: flex; align-items: center; gap: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                Texto para Publicación
+              </h3>
+              <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px;" (click)="copyToClipboard(socialPostText())">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copiar
+              </button>
+            </div>
+            <p style="color: white; font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin: 0;">{{ socialPostText() }}</p>
+          </div>
+        }
       </div>
     }
   </div>

@@ -28,6 +28,7 @@ export class Disenos implements OnInit {
   cantidad = signal<number | null>(null);
   categoria = signal<string>('');
   detalles = signal<string>('');
+  socialPostText = signal<string>('');
 
   showTemplate = signal<boolean>(false);
   showDetailsModal = signal<boolean>(false);
@@ -43,6 +44,7 @@ export class Disenos implements OnInit {
       if (st['cantidad']) this.cantidad.set(st['cantidad']);
       if (st['categoria']) this.categoria.set(st['categoria']);
       if (st['detalles']) this.detalles.set(st['detalles']);
+      if (st['socialPost']) this.socialPostText.set(st['socialPost']);
     }
   }
 
@@ -81,6 +83,7 @@ export class Disenos implements OnInit {
     this.cantidad.set(product.stock);
     this.categoria.set(product.category);
     this.detalles.set(product.details);
+    this.socialPostText.set(product.socialPost || '');
   }
 
   toggleTemplate(product?: any) {
@@ -127,5 +130,29 @@ export class Disenos implements OnInit {
         alert("No se pudo actualizar el producto. Verifica la conexión.");
       }
     });
+  }
+
+  copyToClipboard(text: string) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("¡Texto copiado al portapapeles!");
+      }).catch(err => {
+        console.error("No se pudo copiar al portapapeles", err);
+      });
+    } else {
+      // Fallback
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        alert("¡Texto copiado al portapapeles!");
+      } catch (err) {
+        console.error("No se pudo copiar al portapapeles", err);
+      }
+      document.body.removeChild(textArea);
+    }
   }
 }
