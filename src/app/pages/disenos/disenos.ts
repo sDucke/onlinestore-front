@@ -155,4 +155,29 @@ export class Disenos implements OnInit {
       document.body.removeChild(textArea);
     }
   }
+
+  deleteProduct() {
+    const id = this.selectedProductId();
+    if (!id) {
+      alert("No hay un producto válido seleccionado para eliminar.");
+      return;
+    }
+
+    if (!confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.")) {
+      return;
+    }
+
+    this.http.delete(`${API_BASE_URL}/products/delete/${id}`, { responseType: 'text' }).subscribe({
+      next: (response: any) => {
+        alert("¡Producto eliminado exitosamente!");
+        this.showDetailsModal.set(false);
+        this.generatedImage.set(null); // Clear selected item from view
+        this.fetchProducts(); // Refresh list
+      },
+      error: (err) => {
+        console.error("Error eliminando producto:", err);
+        alert("No se pudo eliminar el producto. Verifica la conexión o el formato de respuesta.");
+      }
+    });
+  }
 }
