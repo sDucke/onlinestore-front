@@ -46,20 +46,6 @@ The frontend calls the backend through relative `/api` routes. In SSR and produc
 BACKEND_URL=http://yanzacademy-backendbuyfast-avgzzn:8080
 ```
 
-Angular SSR in v21 also validates the public hostname to prevent SSRF. In Dokploy or any reverse-proxy deployment, set one of these variables so the server accepts your domain:
-
-```bash
-NG_ALLOWED_HOSTS=buyfast.luminari-labs.space
-```
-
-You can also provide a comma-separated list:
-
-```bash
-NG_ALLOWED_HOSTS=buyfast.luminari-labs.space,www.buyfast.example
-```
-
-This project also reads `APP_URL`, `PUBLIC_URL`, `SITE_URL`, and `ALLOWED_HOSTS` as fallback sources for allowed hostnames.
-
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
