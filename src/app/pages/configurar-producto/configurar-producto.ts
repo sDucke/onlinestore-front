@@ -41,7 +41,7 @@ export class ConfigurarProducto {
     }
   }
 
-  async publicarProducto() {
+  async publicarProducto(generarDiseno: boolean) {
     if (!this.nombre() || !this.precio() || !this.cantidad() || !this.categoria()) {
       alert("Por favor, completa los campos obligatorios antes de publicar.");
       return;
@@ -51,7 +51,13 @@ export class ConfigurarProducto {
 
     const formData = new FormData();
     formData.append('nombre', this.nombre());
-    formData.append('detalles', this.detalles());
+    
+    const detallesJson = {
+      texto: this.detalles(),
+      diseno: generarDiseno
+    };
+    formData.append('detalles', JSON.stringify(detallesJson));
+    
     formData.append('precio', this.precio()!.toString());
     formData.append('cantidad', this.cantidad()!.toString());
     formData.append('categoria', this.categoria());

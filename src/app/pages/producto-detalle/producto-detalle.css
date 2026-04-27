@@ -1,0 +1,235 @@
+.detail-container {
+  padding-top: 40px;
+  padding-bottom: 80px;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--blue-light);
+}
+
+.back-btn:hover {
+  background: rgba(0, 180, 216, 0.1);
+}
+
+/* Layout Principal */
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 32px;
+  background: rgba(3, 4, 94, 0.4);
+}
+
+/* Galería (Izquierda) */
+.detail-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-image-container {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.main-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Para que no se recorte el producto entero */
+  background: #fff; /* Frecuentemente los productos lucen mejor en fondo blanco si no son transparentes, pero podemos dejarlo sin fondo para mantener la estetica dark */
+}
+
+/* Si quieres que se mezcle mejor con el modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .main-image {
+    background: transparent;
+  }
+}
+
+.no-image-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Info (Derecha) */
+.detail-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.breadcrumb {
+  font-size: 13px;
+  color: var(--white-dim);
+  text-transform: capitalize;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.detail-price-box {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.price-symbol {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--blue-light);
+  margin-top: 4px;
+}
+
+.price-value {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--blue-light);
+  line-height: 1;
+}
+
+.detail-stock-status {
+  margin-bottom: 24px;
+}
+
+.stock-badge {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.in-stock {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.low-stock {
+  color: #fb923c;
+  background: rgba(251, 146, 60, 0.1);
+}
+
+.out-of-stock {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.detail-description {
+  margin-bottom: 32px;
+}
+
+.detail-description h3 {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.description-text {
+  font-size: 15px;
+  color: var(--white-dim);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Panel de Acciones (Estilo Buy Box de Amazon) */
+.glass-panel-inner {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.action-btn-large {
+  width: 100%;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 100px; /* Estilo píldora */
+}
+
+.btn-add-cart {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-add-cart:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.btn-buy-now {
+  background: #25D366; /* Verde WhatsApp */
+  color: white;
+  border: none;
+}
+
+.btn-buy-now:hover:not(:disabled) {
+  background: #128C7E;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.secure-transaction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--white-dim);
+  margin-top: 8px;
+}
+
+.loading-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 20px;
+  text-align: center;
+  color: var(--white-dim);
+}
+
+/* Responsividad */
+@media (max-width: 900px) {
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px;
+  }
+}

@@ -4,6 +4,8 @@ import { Home } from './pages/home/home';
 import { Publicar } from './pages/publicar/publicar';
 import { ConfigurarProducto } from './pages/configurar-producto/configurar-producto';
 import { Disenos } from './pages/disenos/disenos';
+import { Tienda } from './pages/tienda/tienda';
+import { ProductoDetalle } from './pages/producto-detalle/producto-detalle';
 
 export const routes: Routes = [
     {
@@ -13,7 +15,9 @@ export const routes: Routes = [
             { path: '', component: Home },
             { path: 'publicar', component: Publicar },
             { path: 'configurar-producto', component: ConfigurarProducto },
-            { path: 'disenos', component: Disenos }
+            { path: 'disenos', component: Disenos },
+            { path: 'tienda', component: Tienda },
+            { path: 'producto/:id', component: ProductoDetalle }
         ]
     }
 ];
