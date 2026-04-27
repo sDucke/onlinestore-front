@@ -46,6 +46,15 @@ The frontend calls the backend through relative `/api` routes. In SSR and produc
 BACKEND_URL=http://yanzacademy-backendbuyfast-avgzzn:8080
 ```
 
+## SSR allowed hosts
+
+Angular SSR validates `Host` and `X-Forwarded-Host` headers to prevent SSRF.  
+If your deployment domain changes, set `NG_ALLOWED_HOSTS` with a comma-separated list:
+
+```bash
+NG_ALLOWED_HOSTS=buyfast.luminari-labs.space,*.luminari-labs.space
+```
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
