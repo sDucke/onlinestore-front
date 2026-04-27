@@ -23,12 +23,17 @@
             Subir imagen
           </button>
 
+          <button type="button" class="btn btn-ghost" (click)="directFileInput.click()">
+            Subir diseño
+          </button>
+
           <button type="button" class="btn btn-ghost" (click)="openCamera()">
             Abrir cámara
           </button>
         </div>
 
         <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)" />
+        <input #directFileInput type="file" accept="image/*" hidden (change)="onDirectFileSelected($event)" />
       </div>
     </div>
     }

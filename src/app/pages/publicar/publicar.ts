@@ -49,7 +49,17 @@ export class Publicar implements OnDestroy {
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length > 0) {
-      this.handleFile(input.files[0]);
+      this.handleFile(input.files[0], false);
+    }
+
+    input.value = '';
+  }
+
+  onDirectFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+      this.handleFile(input.files[0], true);
     }
 
     input.value = '';
@@ -70,7 +80,7 @@ export class Publicar implements OnDestroy {
     this.isDragging.set(false);
 
     if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
-      this.handleFile(event.dataTransfer.files[0]);
+      this.handleFile(event.dataTransfer.files[0], false);
     }
   }
 
@@ -148,7 +158,7 @@ export class Publicar implements OnDestroy {
         });
 
         this.closeCamera();
-        this.handleFile(file);
+        this.handleFile(file, false);
       },
       'image/jpeg',
       0.92
@@ -175,14 +185,25 @@ export class Publicar implements OnDestroy {
     this.cameraError.set(null);
   }
 
-  private handleFile(file: File) {
+  private handleFile(file: File, skipValidation: boolean) {
     if (!file.type.startsWith('image/')) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => this.previewUrl.set(e.target?.result as string);
-    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const imageData = (e.target?.result as string) ?? null;
+      this.previewUrl.set(imageData);
 
-    this.uploadAndVerifyImage(file);
+      if (skipValidation) {
+        this.validationResult.set('pending');
+        this.router.navigate(['/configurar-producto'], {
+          state: { image: imageData }
+        });
+        return;
+      }
+
+      this.uploadAndVerifyImage(file);
+    };
+    reader.readAsDataURL(file);
   }
 
   private uploadAndVerifyImage(file: File) {
