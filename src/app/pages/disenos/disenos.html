@@ -173,7 +173,7 @@
           <div style="display: flex; gap: 16px;">
             <div style="flex: 1;">
               <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Precio</strong>
-              <div style="font-size: 16px; color: #fff; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 8px; margin-top: 6px;">${{ precio() !== null ? precio() : '0.00' }}</div>
+              <div style="font-size: 16px; color: #fff; background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 8px; margin-top: 6px;">${{ formatPrice(precio()) }}</div>
             </div>
             <div style="flex: 1;">
               <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Stock</strong>

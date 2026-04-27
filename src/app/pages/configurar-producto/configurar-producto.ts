@@ -58,7 +58,7 @@ export class ConfigurarProducto {
     };
     formData.append('detalles', JSON.stringify(detallesJson));
     
-    formData.append('precio', this.precio()!.toString());
+    formData.append('precio', this.toPriceParam(this.precio()));
     formData.append('cantidad', this.cantidad()!.toString());
     formData.append('categoria', this.categoria());
 
@@ -105,5 +105,12 @@ export class ConfigurarProducto {
         alert("Ocurrió un problema de red al publicar el producto.");
       }
     });
+  }
+
+  private toPriceParam(value: number | null): string {
+    if (value === null || value === undefined) {
+      return '0.00';
+    }
+    return value.toFixed(2);
   }
 }

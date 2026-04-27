@@ -111,7 +111,7 @@ export class Disenos implements OnInit {
 
     const params: any = {
       nombre: this.productName(),
-      precio: this.precio()?.toString() || '0',
+      precio: this.toPriceParam(this.precio()),
       cantidad: this.cantidad()?.toString() || '0',
       categoria: this.categoria(),
       detalles: this.detalles()
@@ -179,5 +179,25 @@ export class Disenos implements OnInit {
         alert("No se pudo eliminar el producto. Verifica la conexión o el formato de respuesta.");
       }
     });
+  }
+
+  formatPrice(value: number | string | null | undefined): string {
+    if (value === null || value === undefined || value === '') {
+      return '0.00';
+    }
+
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue)) {
+      return '0.00';
+    }
+
+    return numericValue.toFixed(2);
+  }
+
+  private toPriceParam(value: number | null): string {
+    if (value === null || value === undefined) {
+      return '0.00';
+    }
+    return value.toFixed(2);
   }
 }
