@@ -35,7 +35,9 @@
                 "localhost",
                 "127.0.0.1",
                 "buyfast.luminari-labs.space",
-                "*.luminari-labs.space"
+                "*.luminari-labs.space",
+                "buyfast.yanz-academy.online",
+                "*.yanz-academy.online"
               ]
             },
             "ssr": {

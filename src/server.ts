@@ -23,7 +23,58 @@ const shouldProxyRequestBody = (method: string) =>
 
 const app = express();
 app.set('trust proxy', true);
-const angularApp = new AngularNodeAppEngine();
+
+const appendHosts = (hosts: Set<string>, rawEntries?: string) => {
+  if (!rawEntries) {
+    return;
+  }
+
+  for (const entry of rawEntries.split(',')) {
+    const trimmedEntry = entry.trim();
+    if (!trimmedEntry) {
+      continue;
+    }
+
+    try {
+      const parsedUrl = new URL(trimmedEntry);
+      if (parsedUrl.hostname) {
+        hosts.add(parsedUrl.hostname);
+      }
+      continue;
+    } catch {
+      // Not a full URL; treat it as a hostname or wildcard entry.
+    }
+
+    const normalizedHost = trimmedEntry
+      .replace(/^https?:\/\//i, '')
+      .replace(/\/.*$/, '')
+      .replace(/:\d+$/, '');
+
+    if (normalizedHost) {
+      hosts.add(normalizedHost);
+    }
+  }
+};
+
+const getAllowedHosts = () => {
+  const hosts = new Set<string>([
+    'localhost',
+    '127.0.0.1',
+    'buyfast.yanz-academy.online',
+    '*.yanz-academy.online',
+  ]);
+
+  appendHosts(hosts, process.env['NG_ALLOWED_HOSTS']);
+  appendHosts(hosts, process.env['ALLOWED_HOSTS']);
+  appendHosts(hosts, process.env['APP_URL']);
+  appendHosts(hosts, process.env['PUBLIC_URL']);
+  appendHosts(hosts, process.env['SITE_URL']);
+
+  return [...hosts];
+};
+
+const allowedHosts = getAllowedHosts();
+const angularApp = new AngularNodeAppEngine({ allowedHosts });
 
 const getCookieValue = (cookieHeader: string | undefined, key: string) => {
   if (!cookieHeader) {
@@ -258,6 +309,7 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
     }
 
     console.log(`Node Express server listening on http://localhost:${port}`);
+    console.log(`Angular SSR allowed hosts: ${allowedHosts.join(', ')}`);
   });
 }
 
