@@ -21,7 +21,7 @@ export interface ProductPayload {
 })
 export class ConfigurarProducto {
   private readonly uploadProductUrl = `${API_BASE_URL}/products/upload`;
-  private readonly createProductUrl = `${API_BASE_URL}/products/create`;
+  private readonly upsertProductUrl = `${API_BASE_URL}/products/upsert`;
   private router = inject(Router);
   private http = inject(HttpClient);
 
@@ -118,7 +118,7 @@ export class ConfigurarProducto {
   private subirSinDiseno(formData: FormData) {
     console.log("Subiendo producto directo (sin n8n)...");
 
-    this.http.post(this.createProductUrl, formData).subscribe({
+    this.http.post(this.upsertProductUrl, formData).subscribe({
       next: (response: any) => {
         this.isSubmitting.set(false);
         console.log("Producto guardado:", response);
