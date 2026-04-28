@@ -2,11 +2,12 @@ import { Component, ElementRef, OnDestroy, ViewChild, inject, signal } from '@an
 import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from '../../api-base';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-publicar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './publicar.html',
   styleUrls: ['./publicar.css']
 })
@@ -22,6 +23,7 @@ export class Publicar implements OnDestroy {
 
   cameraOpen = signal(false);
   cameraError = signal<string | null>(null);
+  showDialog = signal(false);
 
   private cameraStream: MediaStream | null = null;
   private videoRef?: ElementRef<HTMLVideoElement>;
@@ -43,6 +45,14 @@ export class Publicar implements OnDestroy {
 
   ngOnDestroy(): void {
     this.closeCamera();
+  }
+
+  showDisabledDialog() {
+    this.showDialog.set(true);
+  }
+
+  closeDisabledDialog() {
+    this.showDialog.set(false);
   }
 
   onFileSelected(event: Event) {

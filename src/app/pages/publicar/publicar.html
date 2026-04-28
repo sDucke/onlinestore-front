@@ -19,8 +19,8 @@
         <p>Arrastra una foto aquí, súbela desde tu dispositivo o usa la cámara</p>
 
         <div class="action-buttons">
-          <button type="button" class="btn btn-primary" (click)="fileInput.click()">
-            Subir imagen
+          <button type="button" class="btn btn-primary" (click)="showDisabledDialog()">
+            Generar diseño
           </button>
 
           <button type="button" class="btn btn-ghost" (click)="directFileInput.click()">
@@ -109,6 +109,19 @@
 
         <button type="button" class="btn btn-primary" (click)="openCamera()">
           Tomar otra con cámara
+        </button>
+      </div>
+    </div>
+    }
+
+    <!-- Dialogo temporalmente disabled -->
+    @if (showDialog()) {
+    <div class="dialog-overlay" (click)="closeDisabledDialog()">
+      <div class="dialog-content" (click)="$event.stopPropagation()">
+        <h2>Desactivado temporalmente</h2>
+        <p>Esta función no está disponible por el momento.</p>
+        <button type="button" class="btn btn-primary" (click)="closeDisabledDialog()">
+          Cerrar
         </button>
       </div>
     </div>
