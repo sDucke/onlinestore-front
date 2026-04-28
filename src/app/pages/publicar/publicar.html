@@ -5,7 +5,7 @@
     <div class="topbar">
       <a routerLink="/" class="back-btn">← Volver</a>
       <h1>Publicar producto</h1>
-      <p>Sube una imagen o toma una foto desde la cámara</p>
+      <p>Sube una imagen o toma una foto del producto</p>
     </div>
 
     <!-- Estado inicial -->
@@ -19,16 +19,12 @@
         <p>Arrastra una foto aquí, súbela desde tu dispositivo o usa la cámara</p>
 
         <div class="action-buttons">
-          <button type="button" class="btn btn-primary" (click)="showDisabledDialog()">
-            Generar diseño
-          </button>
-
           <button type="button" class="btn btn-ghost" (click)="directFileInput.click()">
-            Subir diseño
+            Subir foto
           </button>
 
           <button type="button" class="btn btn-ghost" (click)="openCamera()">
-            Abrir cámara
+            Tomar foto
           </button>
         </div>
 
@@ -76,31 +72,12 @@
     <div class="preview-box">
       <div class="preview-header">
         <h2>Vista previa</h2>
-        <p>Se verificará automáticamente al seleccionar la imagen</p>
+        <p>Imagen lista para configurar el producto</p>
       </div>
 
       <div class="preview-image-wrap">
         <img [src]="previewUrl()!" alt="Vista previa" class="preview-image" />
       </div>
-
-      @if (isUploading()) {
-      <div class="status pending">
-        <div class="spinner"></div>
-        <span>Verificando imagen...</span>
-      </div>
-      }
-
-      @if (!isUploading() && validationResult() === 'invalid') {
-      <div class="status invalid">
-        La imagen no corresponde a un producto válido.
-      </div>
-      }
-
-      @if (!isUploading() && validationResult() === 'error') {
-      <div class="status error">
-        Ocurrió un error al validar o subir la imagen.
-      </div>
-      }
 
       <div class="preview-actions">
         <button type="button" class="btn btn-ghost" (click)="reset()">
@@ -109,19 +86,6 @@
 
         <button type="button" class="btn btn-primary" (click)="openCamera()">
           Tomar otra con cámara
-        </button>
-      </div>
-    </div>
-    }
-
-    <!-- Dialogo temporalmente disabled -->
-    @if (showDialog()) {
-    <div class="dialog-overlay" (click)="closeDisabledDialog()">
-      <div class="dialog-content" (click)="$event.stopPropagation()">
-        <h2>Desactivado temporalmente</h2>
-        <p>Esta función no está disponible por el momento.</p>
-        <button type="button" class="btn btn-primary" (click)="closeDisabledDialog()">
-          Cerrar
         </button>
       </div>
     </div>

@@ -21,6 +21,7 @@ export interface ProductPayload {
 })
 export class ConfigurarProducto {
   private readonly uploadProductUrl = `${API_BASE_URL}/products/upload`;
+  private readonly createProductUrl = `${API_BASE_URL}/products/create`;
   private router = inject(Router);
   private http = inject(HttpClient);
 
@@ -65,7 +66,6 @@ export class ConfigurarProducto {
     const imageUrl = this.previewUrl();
     if (imageUrl) {
       try {
-        // Conversión de la Data URL a Blob validable para el server
         const res = await fetch(imageUrl);
         const blob = await res.blob();
         formData.append('file', blob, 'producto.jpg');
@@ -75,7 +75,15 @@ export class ConfigurarProducto {
       }
     }
 
-    console.log("Subiendo inventario final a Backend...");
+    if (generarDiseno) {
+      this.subirConDiseno(formData);
+    } else {
+      this.subirSinDiseno(formData);
+    }
+  }
+
+  private subirConDiseno(formData: FormData) {
+    console.log("Subiendo con generación de diseño (n8n)...");
 
     this.http.post(this.uploadProductUrl, formData).subscribe({
       next: (response: any) => {
@@ -97,6 +105,29 @@ export class ConfigurarProducto {
           });
         } else {
           alert("Error al conectar con la IA");
+        }
+      },
+      error: (err) => {
+        this.isSubmitting.set(false);
+        console.error("Fallo durante la subida del producto:", err);
+        alert("Ocurrió un problema de red al publicar el producto.");
+      }
+    });
+  }
+
+  private subirSinDiseno(formData: FormData) {
+    console.log("Subiendo producto directo (sin n8n)...");
+
+    this.http.post(this.createProductUrl, formData).subscribe({
+      next: (response: any) => {
+        this.isSubmitting.set(false);
+        console.log("Producto guardado:", response);
+        if (response.status === 'success') {
+          this.router.navigate(['/tienda']).then(() => {
+            alert("¡Producto publicado con éxito!");
+          });
+        } else {
+          alert("Error: " + (response.message || "No se pudo publicar el producto"));
         }
       },
       error: (err) => {
