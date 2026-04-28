@@ -48,6 +48,11 @@ export class ConfigurarProducto {
       return;
     }
 
+    if (generarDiseno) {
+      alert("Invalid IA");
+      return;
+    }
+
     this.isSubmitting.set(true);
 
     const formData = new FormData();
