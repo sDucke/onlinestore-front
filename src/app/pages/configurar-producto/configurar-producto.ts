@@ -28,6 +28,11 @@ export class ConfigurarProducto {
   previewUrl = signal<string | null>(null);
   isSubmitting = signal<boolean>(false);
 
+  // Popup signals
+  showPopup = signal(false);
+  popupMessage = signal('');
+  popupType = signal<'error' | 'success'>('error');
+
   // Form signals
   nombre = signal('');
   detalles = signal('');
@@ -44,12 +49,12 @@ export class ConfigurarProducto {
 
   async publicarProducto(generarDiseno: boolean) {
     if (!this.nombre() || !this.precio() || !this.cantidad() || !this.categoria()) {
-      alert("Por favor, completa los campos obligatorios antes de publicar.");
+      this.showPopupMessage('Por favor, completa los campos obligatorios antes de publicar.', 'error');
       return;
     }
 
     if (generarDiseno) {
-      alert("Invalid IA");
+      this.showPopupMessage('Invalid IA: falta de tokens', 'error');
       return;
     }
 
@@ -57,13 +62,13 @@ export class ConfigurarProducto {
 
     const formData = new FormData();
     formData.append('nombre', this.nombre());
-    
+
     const detallesJson = {
       texto: this.detalles(),
-      diseno: generarDiseno
+      diseno: false
     };
     formData.append('detalles', JSON.stringify(detallesJson));
-    
+
     formData.append('precio', this.toPriceParam(this.precio()));
     formData.append('cantidad', this.cantidad()!.toString());
     formData.append('categoria', this.categoria());
@@ -80,11 +85,7 @@ export class ConfigurarProducto {
       }
     }
 
-    if (generarDiseno) {
-      this.subirConDiseno(formData);
-    } else {
-      this.subirSinDiseno(formData);
-    }
+    this.subirSinDiseno(formData);
   }
 
   private subirConDiseno(formData: FormData) {
@@ -95,27 +96,28 @@ export class ConfigurarProducto {
         this.isSubmitting.set(false);
         console.log("Producto guardado:", response);
         if (response.n8n_response_image) {
-          this.router.navigate(['/disenos'], {
-            state: {
-              image: response.n8n_response_image,
-              socialPost: response.social_post,
-              productName: this.nombre(),
-              precio: this.precio(),
-              cantidad: this.cantidad(),
-              categoria: this.categoria(),
-              detalles: this.detalles()
-            }
-          }).then(() => {
-            alert("¡Inventario actualizado con éxito!");
-          });
+          this.showPopupMessage('¡Inventario actualizado con éxito!', 'success');
+          setTimeout(() => {
+            this.router.navigate(['/disenos'], {
+              state: {
+                image: response.n8n_response_image,
+                socialPost: response.social_post,
+                productName: this.nombre(),
+                precio: this.precio(),
+                cantidad: this.cantidad(),
+                categoria: this.categoria(),
+                detalles: this.detalles()
+              }
+            });
+          }, 2000);
         } else {
-          alert("Error al conectar con la IA");
+          this.showPopupMessage('Error al conectar con la IA', 'error');
         }
       },
       error: (err) => {
         this.isSubmitting.set(false);
         console.error("Fallo durante la subida del producto:", err);
-        alert("Ocurrió un problema de red al publicar el producto.");
+        this.showPopupMessage('Ocurrió un problema de red al publicar el producto.', 'error');
       }
     });
   }
@@ -128,19 +130,35 @@ export class ConfigurarProducto {
         this.isSubmitting.set(false);
         console.log("Producto guardado:", response);
         if (response.status === 'success') {
-          this.router.navigate(['/tienda']).then(() => {
-            alert("¡Producto publicado con éxito!");
-          });
+          this.showPopupMessage('¡Producto subido con éxito!', 'success');
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000);
         } else {
-          alert("Error: " + (response.message || "No se pudo publicar el producto"));
+          this.showPopupMessage('Error: ' + (response.message || 'No se pudo publicar el producto'), 'error');
         }
       },
       error: (err) => {
         this.isSubmitting.set(false);
         console.error("Fallo durante la subida del producto:", err);
-        alert("Ocurrió un problema de red al publicar el producto.");
+        this.showPopupMessage('Ocurrió un problema de red al publicar el producto.', 'error');
       }
     });
+  }
+
+  private showPopupMessage(message: string, type: 'error' | 'success') {
+    this.popupMessage.set(message);
+    this.popupType.set(type);
+    this.showPopup.set(true);
+    if (type === 'error') {
+      setTimeout(() => {
+        this.showPopup.set(false);
+      }, 3000);
+    }
+  }
+
+  closePopup() {
+    this.showPopup.set(false);
   }
 
   private toPriceParam(value: number | null): string {
