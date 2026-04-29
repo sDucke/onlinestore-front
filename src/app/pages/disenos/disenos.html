@@ -210,12 +210,29 @@
 
           <div>
             <strong style="color: var(--blue-light); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Categoría</strong>
-            <select style="width: 100%; box-sizing: border-box; background: #001020; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px;" [ngModel]="categoria()" (ngModelChange)="categoria.set($event)">
-              <option value="celulares">Celulares y Tablets</option>
-              <option value="computadoras">Computadoras y Laptops</option>
-              <option value="accesorios">Accesorios y Audio</option>
-              <option value="repuestos">Repuestos Generales</option>
-            </select>
+<select style="width: 100%; box-sizing: border-box; background: #001020; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 12px; border-radius: 8px; margin-top: 6px; font-size: 14px;" [ngModel]="categoria()" (ngModelChange)="categoria.set($event)">
+               <option value="" disabled selected>Selecciona una categoría</option>
+               <option value="celulares">Celulares y Tablets</option>
+               <option value="computadoras">Computadoras y Laptops</option>
+               <option value="accesorios">Accesorios y Audio</option>
+               <option value="repuestos">Repuestos Generales</option>
+               <option value="audifonos">Audífonos</option>
+               <option value="teclados">Teclados</option>
+               <option value="mouse">Mouse</option>
+               <option value="altavoces">Altavoces</option>
+               <option value="camaras">Cámaras</option>
+               <option value="wifi">WiFi</option>
+               <option value="almacenamiento">Almacenamiento</option>
+               <option value="impresoras">Impresoras</option>
+               <option value="gaming">Gaming</option>
+               <option value="consolas">Consolas</option>
+               <option value="tv">TV</option>
+               <option value="hogar-inteligente">Hogar Inteligente</option>
+               <option value="cargadores">Cargadores</option>
+               <option value="monitores">Monitores</option>
+               <option value="perifericos">Periféricos</option>
+               <option value="estuches">Estuches</option>
+             </select>
           </div>
 
           <div>
